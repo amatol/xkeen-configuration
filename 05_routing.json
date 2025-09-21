@@ -3,81 +3,211 @@
     "domainStrategy": "IPIfNonMatch",
     "rules": [
       {
-        "type": "field",
-        "inboundTag": ["redirect", "tproxy"],
-        "outboundTag": "block",
-        "network": "udp",
-        "port": "135,137,138,139"
-      },
-      {
-        "type": "field",
-        "inboundTag": ["redirect", "tproxy"],
-        "outboundTag": "block",
-        "network": "udp",
-        "port": "443",
+        "inboundTag": [
+          "redirect",
+          "tproxy"
+        ],
         "ip": [
           "ext:geoip_zkeenip.dat:!ru"
-        ]
-      },
-      {	
-        "inboundTag": ["redirect", "tproxy"],
-        "outboundTag": "vless-reality",
-        "type": "field",
-        "domain": ["ext:geosite_v2fly.dat:whatsapp"],
-        "network": "udp"
-       },	
-      {
-        "type": "field",
-        "inboundTag": ["redirect", "tproxy"],
-        "outboundTag": "vless-reality",
-        "domain": [
-          "ext:geosite_zkeen.dat:domains",
-          "ext:geosite_zkeen.dat:other",
-          "ext:geosite_zkeen.dat:youtube",
-          "user.auth.xboxlive.com",
-          "xsts.auth.xboxlive.com",
-          "gql.twitch.tv",
-          "api.srvkp.com",
-          "gomining.com",
-          "app.gmt.io",
-          "ttvnw.net"
-        ]
+        ],
+        "network": "udp",
+        "outboundTag": "block",
+        "port": "443",
+        "type": "field"
       },
       {
-        "type": "field",
-        "inboundTag": ["redirect", "tproxy"],
-        "outboundTag": "vless-reality",
+        "inboundTag": [
+          "redirect",
+          "tproxy"
+        ],
+        "network": "udp",
+        "outboundTag": "block",
+        "port": "135, 137, 138, 139",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "redirect",
+          "tproxy"
+        ],
         "ip": [
-          "ext:geoip_zkeenip.dat:discord",
-          "ext:geoip_zkeenip.dat:meta",
-          "ext:geoip_zkeenip.dat:telegram"
-        ]
+          "ext:geoip_v2fly.dat:google",
+          "ext:geoip_v2fly.dat:twitter"
+        ],
+        "outboundTag": "vless-reality",
+        "type": "field"
       },
       {
-        "type": "field",
-        "inboundTag": ["redirect", "tproxy"],
+        "inboundTag": [
+          "redirect",
+          "tproxy"
+        ],
+        "ip": [
+          "91.108.4.0/22",
+          "91.108.8.0/22",
+          "91.108.12.0/22",
+          "91.108.16.0/22",
+          "91.108.20.0/22",
+          "91.108.56.0/22",
+          "149.154.160.0/20",
+          "185.76.151.0/24"
+        ],
+        "network": "tcp,udp",
+        "outboundTag": "vless-reality",
+        "port": "80,443,596-599,1400,5222",
+        "type": "field"
+      },
+      {
+        "domain": [
+          "ext:geosite_v2fly.dat:speedtest",
+          "ext:geosite_v2fly.dat:openai",
+          "ext:geosite_v2fly.dat:discord",
+          "ext:geosite_v2fly.dat:twitter",
+          "ext:geosite_v2fly.dat:youtube",
+          "ext:geosite_v2fly.dat:facebook",
+          "ext:geosite_v2fly.dat:instagram",
+          "ext:geosite_v2fly.dat:tiktok",
+          "ext:geosite_v2fly.dat:netflix",
+          "ext:geosite_v2fly.dat:tidal",
+          "ext:geosite_v2fly.dat:intel",
+          "ext:geosite_v2fly.dat:whatsapp",
+          "ext:geosite_v2fly.dat:whatsapp-ads",
+          "ext:geosite_v2fly.dat:spotify",
+          "ext:geosite_v2fly.dat:autodesk",
+          "ext:geosite_v2fly.dat:google-gemini",
+          "ext:geosite_v2fly.dat:soundcloud",
+          "ext:geosite_v2fly.dat:linkedin",
+          "ext:geosite_v2fly.dat:notion",
+          "domain:grok.com",
+          "manus.im",
+          "cloudflare-ech.com",
+          "rutracker.org",
+          "rutracker.net",
+          "static.rutracker.cc",
+          "lostfilm.tv",
+          "themoviedb.org",
+          "image.tmdb.org",
+          "4pda.to",
+          "firebase-settings.crashlytics.com",
+          "firebaseinstallations.googleapis.com",
+          "kp-pro.cloud",
+          "firebaseremoteconfigrealtime.googleapis.com",
+          "firebaseremoteconfig.googleapis.com",
+          "cdn32.lol",
+          "kino.pub",
+          "stream.voidboost.cc",
+          "hdrezka.ag",
+          "whoer.net",
+          "check-host.net",
+          "2ip.io"
+        ],
+        "inboundTag": [
+          "redirect",
+          "tproxy"
+        ],
+        "outboundTag": "vless-reality",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "redirect",
+          "tproxy"
+        ],
+        "network": "udp",
+        "outboundTag": "vless-reality",
+        "port": "50000-50030",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "redirect",
+          "tproxy"
+        ],
+        "ip": [
+          "138.128.136.0/21",
+          "162.158.0.0/15",
+          "172.64.0.0/13",
+          "34.0.0.0/15",
+          "34.2.0.0/16",
+          "34.3.0.0/23",
+          "34.3.2.0/24",
+          "35.192.0.0/12",
+          "35.208.0.0/12",
+          "35.224.0.0/12",
+          "35.240.0.0/13",
+          "5.200.14.128/25",
+          "66.22.192.0/18",
+          "104.16.0.0/12",
+          "13.200.0.0/13",
+          "13.208.0.0/12",
+          "13.224.0.0/12",
+          "13.24.0.0/13",
+          "13.32.0.0/12",
+          "13.48.0.0/13",
+          "13.56.0.0/14",
+          "143.204.0.0/16",
+          "18.128.0.0/9",
+          "18.32.0.0/11",
+          "18.64.0.0/10",
+          "188.114.96.0/22",
+          "204.11.56.0/23",
+          "23.227.32.0/19",
+          "3.128.0.0/9"
+        ],
+        "outboundTag": "vless-reality",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "redirect",
+          "tproxy"
+        ],
+        "ip": [
+          "157.240.0.0/16",
+          "69.63.176.0/20",
+          "66.220.144.0/20",
+          "31.13.24.0/21",
+          "31.13.64.0/18",
+          "31.13.80.0/20"
+        ],
+        "network": "tcp,udp",
+        "outboundTag": "vless-reality",
+        "port": "3478,46420",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "redirect",
+          "tproxy"
+        ],
         "outboundTag": "direct",
         "protocol": [
           "bittorrent"
-        ]
+        ],
+        "type": "field"
       },
       {
-        "type": "field",
-        "inboundTag": ["redirect", "tproxy"],
-        "outboundTag": "direct",
+        "inboundTag": [
+          "redirect",
+          "tproxy"
+        ],
         "ip": [
           "127.0.0.0/8",
           "10.0.0.0/8",
           "172.16.0.0/12",
           "192.168.0.0/16",
           "169.254.0.0/16"
-        ]
+        ],
+        "outboundTag": "direct",
+        "type": "field"
       },
       {
-        "type": "field",
-        "inboundTag": ["redirect", "tproxy"],
+        "inboundTag": [
+          "redirect",
+          "tproxy"
+        ],
         "outboundTag": "direct",
-        "network": "tcp,udp"
+        "type": "field"
       }
     ]
   }
