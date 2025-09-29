@@ -1,0 +1,16 @@
+payload:
+    - +.firebase-settings.crashlytics.com
+    - +.firebaseinstallations.googleapis.com
+    - +.kp-pro.cloud
+    - +.firebaseremoteconfigrealtime.googleapis.com
+    - +.firebaseremoteconfig.googleapis.com
+    - +.cdn32.lol
+    - +.api.srvkp.com
+    - +.kino.pub
+    - +.kinopub.online
+    - +.gfw.ovh
+    - +.mos-gorsud.co
+    - +.cub.red
+    - +.stream.voidboost.cc
+    - +.hdrezka.ag
+    - +.filmix.my
