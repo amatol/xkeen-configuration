@@ -1,5 +1,6 @@
 payload:
     - user.auth.xboxlive.com
     - xsts.auth.xboxlive.com
+    - app.gomining.com
     - gomining.com
     - app.gmt.io
