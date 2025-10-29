@@ -1,3 +1,9 @@
 payload:
     - kino.pub
     - cdnservices.link
+    - cdn32.lol
+    - firebaseremoteconfig.googleapis.com
+    - firebaseremoteconfigrealtime.googleapis.com
+    - kp-pro.cloud
+    - firebaseinstallations.googleapis.com
+    - firebase-settings.crashlytics.com
