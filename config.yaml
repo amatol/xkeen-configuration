@@ -1,7 +1,6 @@
 # Описание:
-# Веб-интерфейс доступен по адресу http://192.168.1.1:9090/ui (вместо 192.168.1.1 может быть любой IP, где запущен данный конфиг).
-# Остальные группы YouTube/Discord и тд имеют приоритет над группой "Заблок. сервисы". Eсли переопределение не нужно, можно выбрать "Заблок. сервисы" в качестве подключения и управлять всеми группами разом в группе "Заблок. сервисы".
-# При использовании с XKeen рекомендуется выполнить команду "xkeen -ap 80,443,2000:2300,8443,19200:19400,50000:50030" в SSH терминале роутера.
+# Веб-интерфейс доступен по адресу http://192.168.1.1:9090/ui
+# При использовании с XKeen рекомендуется выполнить команду "xkeen -ap 80,443,8443,596:599,1400,2000-2300,3478,5222,19200-19400,46420,50000-51000" в SSH терминале роутера.
 
 log-level: silent
 allow-lan: true
@@ -16,23 +15,21 @@ profile:
 
 sniffer:
   enable: true
+  parse-pure-ip: true
+  force-dns-mapping: true
   sniff:
     HTTP:
+      ports: [80]
     TLS:
+      ports: [443]
     QUIC:
+      ports: [443]
 
 proxy-groups:
   - name: Заблок. сервисы
     type: url-test # Автовыбор сервера с минимальным пингом
-    url: http://www.gstatic.com/generate_204  # URL для тестирования
-    interval: 1800  # Интервал проверки (сек)
-    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Reject.png
-    include-all: true
-
-  - name: Заблок. сервисы без СНГ
-    type: url-test # Автовыбор сервера с минимальным пингом
-    url: http://www.gstatic.com/generate_204  # URL для тестирования
-    interval: 3600  # Интервал проверки (сек)
+    url: http://cp.cloudflare.com/ # URL для тестирования
+    interval: 300  # Интервал проверки (сек)
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Reject.png
     include-all: true
     exclude-filter: 🇷🇺|🇰🇿|🇺🇦
@@ -61,7 +58,7 @@ proxy-groups:
       - DIRECT
       - Заблок. сервисы
 
-  - name: Kino
+  - name: Кинотеатры
     type: select
     icon: https://github.com/amatol/xkeen-configuration/raw/refs/heads/main/group-icons/kino.png
     include-all: true
@@ -81,7 +78,6 @@ proxy-groups:
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Spotify.png
     include-all: true
-    exclude-filter: 🇷🇺|🇰🇿|🇺🇦
     proxies:
       - Заблок. сервисы
       - DIRECT
@@ -94,13 +90,13 @@ proxy-groups:
       - DIRECT
       - Заблок. сервисы
 
-  - name: Steam
+  - name: Community
     type: select
-    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png
+    icon: https://github.com/amatol/xkeen-configuration/raw/refs/heads/main/group-icons/community.png
     include-all: true
     proxies:
-      - DIRECT
       - Заблок. сервисы
+      - DIRECT
 
   - name: Cloudflare
     type: select
@@ -114,7 +110,6 @@ proxy-groups:
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Bot.png
     include-all: true
-    exclude-filter: 🇷🇺|🇰🇿|🇺🇦
     proxies:
       - Заблок. сервисы
 
@@ -140,18 +135,18 @@ proxy-groups:
     proxies:
       - REJECT
       - PASS
-
+      
 # Подключение с использованием подписки
 proxy-providers:
   proxy-sub:
     type: http
     url: #ТУТ_ССЫЛКА_НА_ВАШУ_ПОДПИСКУ
-    path: ./proxy-providers/proxy-sub.yml
+    path: ./proxy-providers/subscription.yaml
     interval: 3600
     health-check:
       enable: true
       url: http://cp.cloudflare.com/
-      interval: 600
+      interval: 300
       timeout: 2000
       lazy: false
       expected-status: 204
@@ -180,6 +175,13 @@ rule-providers:
     format: mrs
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/tiktok.mrs
     path: ./rule-providers/tiktok-domains.mrs
+
+  community:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/amatol/xkeen-configuration/raw/refs/heads/main/rules/community.mrs
+    path: ./rule-providers/community-domains.mrs
 
   cloudflare-ips:
     type: http
@@ -222,9 +224,8 @@ rule-providers:
 
 rules:
   - AND,((DST-PORT,443),(NETWORK,UDP)),QUIC
-  - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Заблок. сервисы без СНГ # Разблокировка высокого качества на Twitch.tv
+  - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Заблок. сервисы # Разблокировка высокого качества на Twitch.tv
   - GEOSITE,category-ai-!cn,AI
-  - GEOSITE,steam,Steam
   - GEOSITE,spotify,Spotify
   - OR,((GEOSITE,youtube),(DOMAIN-SUFFIX,googleusercontent.com)),YouTube
   - GEOSITE,twitch,Twitch
@@ -233,7 +234,8 @@ rules:
   - OR,((GEOSITE,meta),(RULE-SET,meta-ips,no-resolve)),Meta
   - OR,((GEOSITE,telegram),(RULE-SET,telegram-ips,no-resolve)),Telegram
   - OR,((GEOSITE,cloudflare),(RULE-SET,cloudflare-ips)),Cloudflare
-  - RULE-SET,kino,Kino
+  - RULE-SET,kino,Кинотеатры
+  - RULE-SET,community,Community
   - RULE-SET,tiktok,TikTok
   - RULE-SET,refilter-domains,Заблок. сервисы
   - MATCH,DIRECT
