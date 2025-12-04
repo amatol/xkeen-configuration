@@ -3,15 +3,26 @@
 # При использовании с XKeen рекомендуется выполнить команду "xkeen -ap 80,443,8443,596:599,1400,2000-2300,3478,5222,19200-19400,46420,50000-51000" в SSH терминале роутера.
 
 log-level: silent
+redir-port: 1080
+tproxy-port: 1081
 allow-lan: true
-tproxy-port: 5000
-ipv6: true
+ipv6: false
 mode: rule
+geodata-mode: true
+geodata-loader: memconservative
+geo-auto-update: true
+geo-update-interval: 24
 external-controller: 0.0.0.0:9090
 external-ui: zashboard
 external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
 profile:
   store-selected: true
+
+geox-url:
+  geosite: "https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat"
+  geoip: "https://github.com/0FL01/meta-rules-dat_for_RU_region/releases/latest/download/geoip.dat"
+  mmdb: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
+  asn: "https://github.com/xishang0128/geoip/releases/download/latest/GeoLite2-ASN.mmdb"
 
 sniffer:
   enable: true
@@ -25,11 +36,44 @@ sniffer:
     QUIC:
       ports: [443]
 
+dns:
+  enable: true
+  cache-algorithm: arc
+  default-nameserver:
+    - 1.1.1.1
+    - 9.9.9.9
+    - 8.8.8.8
+  nameserver:
+    - https://one.one.one.one/dns-query
+    - https://dns.quad9.net/dns-query
+    - tls://dns.quad9.net
+    - tls://one.one.one.one
+  direct-nameserver:
+    - 1.1.1.1
+    - 9.9.9.9
+    - 8.8.8.8
+  fallback:
+    - tls://1.1.1.1
+    - tls://9.9.9.9
+    - tls://8.8.8.8
+  fallback-filter:
+    geoip: true
+    geoip-code: RU
+    ipcidr:
+      - 240.0.0.0/4
+    domain:
+      - '+.google.com'
+      - '+.facebook.com'
+      - '+.youtube.com'
+      - '+.twitter.com'
+      - '+.instagram.com'
+      - '+.github.com'
+
 proxy-groups:
   - name: Заблок. сервисы
-    type: url-test # Автовыбор сервера с минимальным пингом
-    url: http://cp.cloudflare.com/ # URL для тестирования
-    interval: 300  # Интервал проверки (сек)
+    type: url-test
+    url: http://www.msftncsi.com/ncsi.txt
+    interval: 600
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Reject.png
     include-all: true
     exclude-filter: 🇷🇺|🇰🇿|🇺🇦
@@ -129,30 +173,32 @@ proxy-groups:
       - Заблок. сервисы
       - DIRECT
 
+  - name: Roblox
+    type: select
+    icon: https://github.com/amatol/xkeen-configuration/raw/refs/heads/main/group-icons/roblox.png
+    include-all: true
+    proxies:
+      - Заблок. сервисы
+      - DIRECT
+
   - name: QUIC
     type: select
     icon: https://github.com/zxc-rv/assets/raw/refs/heads/main/group-icons/quic.png
     proxies:
       - REJECT
       - PASS
-      
+
 # Подключение с использованием подписки
 proxy-providers:
-  proxy-sub:
+  subscription:
     type: http
-    url: #ТУТ_ССЫЛКА_НА_ВАШУ_ПОДПИСКУ
+    url:  #  <------------ ЗДЕСЬ ВСТАВИТЬ ССЫЛКУ НА ВАШУ ПОДПИСКУ
     path: ./proxy-providers/subscription.yaml
     interval: 3600
     health-check:
       enable: true
-      url: http://cp.cloudflare.com/
+      url: http://www.msftncsi.com/ncsi.txt
       interval: 300
-      timeout: 2000
-      lazy: false
-      expected-status: 204
-    override:
-      udp: true
-      tfo: true
 
 rule-providers:
   refilter-domains:
@@ -161,6 +207,7 @@ rule-providers:
     format: mrs
     url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/domain-rule.mrs
     path: ./rule-providers/refilter-domains.mrs
+    interval: 86400
 
   kino:
     type: http
@@ -168,6 +215,23 @@ rule-providers:
     format: mrs
     url: https://github.com/amatol/xkeen-configuration/raw/refs/heads/main/rules/kino.mrs
     path: ./rule-providers/kino-domains.mrs
+    interval: 86400
+
+  patreon:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/patreon.mrs
+    path: ./rule-providers/patreon-domains.mrs
+    interval: 86400
+
+  roblox:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/roblox.mrs
+    path: ./rule-providers/roblox-domains.mrs
+    interval: 86400
 
   tiktok:
     type: http
@@ -175,6 +239,7 @@ rule-providers:
     format: mrs
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/tiktok.mrs
     path: ./rule-providers/tiktok-domains.mrs
+    interval: 86400
 
   community:
     type: http
@@ -182,6 +247,7 @@ rule-providers:
     format: mrs
     url: https://github.com/amatol/xkeen-configuration/raw/refs/heads/main/rules/community.mrs
     path: ./rule-providers/community-domains.mrs
+    interval: 86400
 
   cloudflare-ips:
     type: http
@@ -237,5 +303,7 @@ rules:
   - RULE-SET,kino,Кинотеатры
   - RULE-SET,community,Community
   - RULE-SET,tiktok,TikTok
+  - RULE-SET,patreon,Заблок. сервисы
+  - RULE-SET,roblox,Roblox
   - RULE-SET,refilter-domains,Заблок. сервисы
   - MATCH,DIRECT
