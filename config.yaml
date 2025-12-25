@@ -1,11 +1,7 @@
-# Описание:
-# Веб-интерфейс доступен по адресу http://192.168.1.1:9090/ui
-# При использовании с XKeen рекомендуется выполнить команду "xkeen -ap 80,443,8443,596:599,1400,2000-2300,3478,5222,19200-19400,46420,50000-51000" в SSH терминале роутера.
-
 log-level: silent
-redir-port: 1080
-tproxy-port: 1081
 allow-lan: true
+redir-port: 5000
+tproxy-port: 5001
 ipv6: false
 mode: rule
 geodata-mode: true
@@ -14,15 +10,9 @@ geo-auto-update: true
 geo-update-interval: 24
 external-controller: 0.0.0.0:9090
 external-ui: zashboard
-external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
+external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist-cdn-fonts.zip
 profile:
   store-selected: true
-
-geox-url:
-  geosite: "https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat"
-  geoip: "https://github.com/0FL01/meta-rules-dat_for_RU_region/releases/latest/download/geoip.dat"
-  mmdb: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
-  asn: "https://github.com/xishang0128/geoip/releases/download/latest/GeoLite2-ASN.mmdb"
 
 sniffer:
   enable: true
@@ -36,45 +26,12 @@ sniffer:
     QUIC:
       ports: [443]
 
-dns:
-  enable: true
-  cache-algorithm: arc
-  default-nameserver:
-    - 1.1.1.1
-    - 9.9.9.9
-    - 8.8.8.8
-  nameserver:
-    - https://one.one.one.one/dns-query
-    - https://dns.quad9.net/dns-query
-    - tls://dns.quad9.net
-    - tls://one.one.one.one
-  direct-nameserver:
-    - 1.1.1.1
-    - 9.9.9.9
-    - 8.8.8.8
-  fallback:
-    - tls://1.1.1.1
-    - tls://9.9.9.9
-    - tls://8.8.8.8
-  fallback-filter:
-    geoip: true
-    geoip-code: RU
-    ipcidr:
-      - 240.0.0.0/4
-    domain:
-      - '+.google.com'
-      - '+.facebook.com'
-      - '+.youtube.com'
-      - '+.twitter.com'
-      - '+.instagram.com'
-      - '+.github.com'
-
 proxy-groups:
-  - name: Заблок. сервисы
+  - name: Свободный интернет
     type: url-test
     url: http://www.msftncsi.com/ncsi.txt
     interval: 600
-    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Reject.png
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Available_1.png
     include-all: true
     exclude-filter: 🇷🇺|🇰🇿|🇺🇦
 
@@ -83,7 +40,7 @@ proxy-groups:
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png
     include-all: true
     proxies:
-      - Заблок. сервисы
+      - Свободный интернет
       - DIRECT
 
   - name: Discord
@@ -91,7 +48,7 @@ proxy-groups:
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Discord.png
     include-all: true
     proxies:
-      - Заблок. сервисы
+      - Свободный интернет
       - DIRECT
 
   - name: Twitch
@@ -100,14 +57,14 @@ proxy-groups:
     include-all: true
     proxies:
       - DIRECT
-      - Заблок. сервисы
+      - Свободный интернет
 
   - name: Кинотеатры
     type: select
     icon: https://github.com/amatol/xkeen-configuration/raw/refs/heads/main/group-icons/kino.png
     include-all: true
     proxies:
-      - Заблок. сервисы
+      - Свободный интернет
       - DIRECT
 
   - name: Meta
@@ -115,7 +72,7 @@ proxy-groups:
     icon: https://github.com/zxc-rv/assets/raw/refs/heads/main/group-icons/meta.png
     include-all: true
     proxies:
-      - Заблок. сервисы
+      - Свободный интернет
       - DIRECT
 
   - name: Spotify
@@ -123,7 +80,7 @@ proxy-groups:
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Spotify.png
     include-all: true
     proxies:
-      - Заблок. сервисы
+      - Свободный интернет
       - DIRECT
 
   - name: Telegram
@@ -132,14 +89,14 @@ proxy-groups:
     include-all: true
     proxies:
       - DIRECT
-      - Заблок. сервисы
+      - Свободный интернет
 
   - name: Community
     type: select
     icon: https://github.com/amatol/xkeen-configuration/raw/refs/heads/main/group-icons/community.png
     include-all: true
     proxies:
-      - Заблок. сервисы
+      - Свободный интернет
       - DIRECT
 
   - name: Cloudflare
@@ -148,21 +105,21 @@ proxy-groups:
     include-all: true
     proxies:
       - PASS
-      - Заблок. сервисы
+      - Свободный интернет
 
   - name: AI
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Bot.png
     include-all: true
     proxies:
-      - Заблок. сервисы
+      - Свободный интернет
 
   - name: Twitter
     type: select
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitter.png
     include-all: true
     proxies:
-      - Заблок. сервисы
+      - Свободный интернет
       - DIRECT
 
   - name: TikTok
@@ -170,7 +127,7 @@ proxy-groups:
     icon: https://github.com/amatol/xkeen-configuration/raw/refs/heads/main/group-icons/tiktok.png
     include-all: true
     proxies:
-      - Заблок. сервисы
+      - Свободный интернет
       - DIRECT
 
   - name: Roblox
@@ -178,7 +135,7 @@ proxy-groups:
     icon: https://github.com/amatol/xkeen-configuration/raw/refs/heads/main/group-icons/roblox.png
     include-all: true
     proxies:
-      - Заблок. сервисы
+      - Свободный интернет
       - DIRECT
 
   - name: QUIC
@@ -192,13 +149,13 @@ proxy-groups:
 proxy-providers:
   subscription:
     type: http
-    url:  #  <------------ ЗДЕСЬ ВСТАВИТЬ ССЫЛКУ НА ВАШУ ПОДПИСКУ
+    url:   #  <------------ ЗДЕСЬ ВСТАВИТЬ ССЫЛКУ НА ВАШУ ПОДПИСКУ
     path: ./proxy-providers/subscription.yaml
     interval: 3600
     health-check:
       enable: true
       url: http://www.msftncsi.com/ncsi.txt
-      interval: 300
+      interval: 120
 
 rule-providers:
   refilter-domains:
@@ -231,6 +188,14 @@ rule-providers:
     format: mrs
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/roblox.mrs
     path: ./rule-providers/roblox-domains.mrs
+    interval: 86400
+
+  roblox-ips:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://github.com/amatol/xkeen-configuration/raw/refs/heads/main/rules/roblox-ips.mrs
+    path: ./rule-providers/cloudflare-ips.mrs
     interval: 86400
 
   tiktok:
@@ -290,7 +255,7 @@ rule-providers:
 
 rules:
   - AND,((DST-PORT,443),(NETWORK,UDP)),QUIC
-  - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Заблок. сервисы # Разблокировка высокого качества на Twitch.tv
+  - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Свободный интернет # Разблокировка высокого качества на Twitch.tv
   - GEOSITE,category-ai-!cn,AI
   - GEOSITE,spotify,Spotify
   - OR,((GEOSITE,youtube),(DOMAIN-SUFFIX,googleusercontent.com)),YouTube
@@ -303,7 +268,8 @@ rules:
   - RULE-SET,kino,Кинотеатры
   - RULE-SET,community,Community
   - RULE-SET,tiktok,TikTok
-  - RULE-SET,patreon,Заблок. сервисы
+  - RULE-SET,patreon,Свободный интернет
   - RULE-SET,roblox,Roblox
-  - RULE-SET,refilter-domains,Заблок. сервисы
+  - RULE-SET,roblox-ips,Roblox
+  - RULE-SET,refilter-domains,Свободный интернет
   - MATCH,DIRECT
