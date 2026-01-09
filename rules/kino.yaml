@@ -1,6 +1,6 @@
 payload:
     - kino.pub
-    - cdnservices.link
+    - 'cdnservices.*'
     - cdn32.lol
     - firebaseremoteconfig.googleapis.com
     - firebaseremoteconfigrealtime.googleapis.com
