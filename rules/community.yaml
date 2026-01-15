@@ -4,4 +4,5 @@ payload:
     - xsts.auth.xboxlive.com
     - +.gomining.com
     - +.gmt.io
-    - '*.nintendo.*'
+    - +.nintendo.net
+    - +.nintendo.com
