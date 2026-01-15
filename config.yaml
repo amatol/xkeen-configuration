@@ -1,30 +1,32 @@
 log-level: silent
 allow-lan: true
-redir-port: 5000
-tproxy-port: 5001
+redir-port: 1080
+tproxy-port: 1081
 ipv6: false
 mode: rule
 geodata-mode: true
 geodata-loader: memconservative
 geo-auto-update: true
 geo-update-interval: 24
+keep-alive-interval: 15
+keep-alive-idle: 15
+disable-keep-alive: false
 external-controller: 0.0.0.0:9090
 external-ui: zashboard
-external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist-cdn-fonts.zip
+external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
 profile:
   store-selected: true
 
 sniffer:
   enable: true
-  parse-pure-ip: true
   force-dns-mapping: true
+  parse-pure-ip: true
   sniff:
     HTTP:
-      ports: [80]
+      ports: [80, 8080-8880]
+      override-destination: true
     TLS:
-      ports: [443]
-    QUIC:
-      ports: [443]
+      ports: [443, 8443]
 
 proxy-groups:
   - name: Свободный интернет
@@ -149,7 +151,7 @@ proxy-groups:
 proxy-providers:
   subscription:
     type: http
-    url:   #  <------------ ЗДЕСЬ ВСТАВИТЬ ССЫЛКУ НА ВАШУ ПОДПИСКУ
+    url:  #  <------------ ЗДЕСЬ ВСТАВИТЬ ССЫЛКУ НА ВАШУ ПОДПИСКУ
     path: ./proxy-providers/subscription.yaml
     interval: 3600
     health-check:
@@ -164,6 +166,14 @@ rule-providers:
     format: mrs
     url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/domain-rule.mrs
     path: ./rule-providers/refilter-domains.mrs
+    interval: 86400
+
+  refilter-ips:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/ip-rule.mrs
+    path: ./rule-providers/refilter-ips.mrs
     interval: 86400
 
   kino:
@@ -195,7 +205,7 @@ rule-providers:
     behavior: ipcidr
     format: mrs
     url: https://github.com/amatol/xkeen-configuration/raw/refs/heads/main/rules/roblox-ips.mrs
-    path: ./rule-providers/cloudflare-ips.mrs
+    path: ./rule-providers/roblox-ips.mrs
     interval: 86400
 
   tiktok:
@@ -253,6 +263,37 @@ rule-providers:
     path: ./rule-providers/meta-ips.mrs
     interval: 86400
 
+  refilter-noech:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/re-filter-noech.mrs
+    path: ./rule-providers/refilter-noech.mrs
+    interval: 86400
+
+  refilter-ech:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/re-filter/re-filter-ech.mrs
+    path: ./rule-providers/refilter-ech.mrs
+    interval: 86400
+
+  torrent-trackers:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/other/torrent-trackers.mrs
+    path: ./rule-providers/torrent-trackers.mrs
+
+  torrent-clients:
+    type: http
+    behavior: classical
+    format: yaml
+    url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/other/torrent-clients.yaml
+    path: ./rule-providers/torrent-clients.yaml
+    interval: 86400
+
 rules:
   - AND,((DST-PORT,443),(NETWORK,UDP)),QUIC
   - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Свободный интернет # Разблокировка высокого качества на Twitch.tv
@@ -272,4 +313,7 @@ rules:
   - RULE-SET,roblox,Roblox
   - RULE-SET,roblox-ips,Roblox
   - RULE-SET,refilter-domains,Свободный интернет
+  - RULE-SET,refilter-ips,Свободный интернет
+  - RULE-SET,torrent-clients,DIRECT
+  - RULE-SET,torrent-trackers,DIRECT
   - MATCH,DIRECT
