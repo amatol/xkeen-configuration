@@ -1,4 +1,5 @@
 payload:
+    - api.srvkp.com
     - kino.pub
     - 'cdnservices.*'
     - cdn32.lol
