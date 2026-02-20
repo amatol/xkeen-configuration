@@ -1,5 +1,4 @@
 payload:
-    - api.srvkp.com
     - kino.pub
     - 'cdnservices.*'
     - cdn32.lol
@@ -13,3 +12,4 @@ payload:
     - kinopub.online
     - zerkalo.xyz
     - 'cdn-service.*'
+    - api.srvkp.com
