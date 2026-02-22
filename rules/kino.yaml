@@ -1,13 +1,10 @@
 payload:
-    - '*.kino.pub'
-    - cdn32.lol
-    - firebaseremoteconfig.googleapis.com
-    - firebaseremoteconfigrealtime.googleapis.com
-    - kp-pro.cloud
-    - firebaseinstallations.googleapis.com
-    - firebase-settings.crashlytics.com
-    - cdn4t.store
-    - cdntogo.net
-    - kinopub.online
-    - zerkalo.xyz
-    - api.srvkp.com
+    - +.kino.pub
+    - +.kinopub.online
+    - +.kpdl.link
+    - +.gfw.ovh
+    - +.mos-gorsud.co
+    - +.cdn-service.space
+    - +.cdn2cdn.com
+    - +.cdn2site.com
+    - +.pushbr.com
