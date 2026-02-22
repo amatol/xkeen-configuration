@@ -1,6 +1,5 @@
 payload:
-    - kino.pub
-    - 'cdnservices.*'
+    - '*.kino.pub'
     - cdn32.lol
     - firebaseremoteconfig.googleapis.com
     - firebaseremoteconfigrealtime.googleapis.com
@@ -11,5 +10,4 @@ payload:
     - cdntogo.net
     - kinopub.online
     - zerkalo.xyz
-    - 'cdn-service.*'
     - api.srvkp.com
